@@ -92,7 +92,6 @@ while True:
 					connection.close()
 					exit()
 				data = str(count_vehicles(camera, net, ln))
-				print("Detected {} vehicles".format(data))
 				connection.sendall(data.encode("utf-8"))
 			else:
 				print("No data received from", client_address)

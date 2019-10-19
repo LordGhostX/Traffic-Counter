@@ -26,14 +26,12 @@ else:
     try:
         while True:
             # Send data
-            start = time.time()
             message = "count vehicles"
             sock.sendall(message.encode('utf-8'))
 
             data = sock.recv(4096).decode()
             if len(data) > 0:
                 print("Detected {} vehicles".format(data))
-                print(time.time() - start)
                 do_something(int(data))
             else:
                 print("No data received from the server")
