@@ -8,6 +8,9 @@ import time
 TCP_PORT = 10000
 AVERAGE_FPS = 20
 
+def do_something(number_of_vehicles):
+    pass
+
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print("Created connection socket")
@@ -23,18 +26,21 @@ else:
     try:
         while True:
             # Send data
+            start = time.time()
             message = "count vehicles"
             sock.sendall(message.encode('utf-8'))
 
             data = sock.recv(4096).decode()
             if len(data) > 0:
-                data = int(data)
+                print("Detected {} vehicles".format(data))
+                print(time.time() - start)
+                do_something(int(data))
             else:
                 print("No data received from the server")
                 break
 
             # sleep for a while
-            time.sleep(1 / 1000 / AVERAGE_FPS)
+            #time.sleep(1 / 1000 / AVERAGE_FPS)
     except Exception as e:
         print(e)
         pass

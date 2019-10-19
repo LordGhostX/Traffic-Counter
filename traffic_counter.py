@@ -30,7 +30,8 @@ def count_vehicles(camera, net, ln, list_of_vehicles=["bicycle","car","motorbike
 		# loop over each of the detections
 		for detection in output:
 			# extract the confidence (i.e., probability) of the current object detection
-			classID = np.argmax(detection[5:])
+			scores = detection[5:]
+			classID = np.argmax(scores)
 			confidence = scores[classID]
 
 			# filter out weak predictions by ensuring the detected probability is greater than the minimum probability
@@ -58,7 +59,7 @@ LABELS = open(labelsPath).read().strip().split("\n")
 print("Loaded YOLO Labels")
 
 # derive the paths to the YOLO weights and model configuration
-weightsPath = os.path.join(YOLO_PATH, "yolov3.weights")
+weightsPath = os.path.join(YOLO_PATH, "yolov3-tiny.weights")
 configPath = os.path.join(YOLO_PATH, "yolov3.cfg")
 print("Dervied YOLO config paths")
 
@@ -85,13 +86,13 @@ while True:
 		# Receive the data in small chunks and retransmit it
 		while True:
 			data = connection.recv(4096).decode()
-			print(data)
 			if data:
 				if data == "close server":
 					print("Closing the server connection")
 					connection.close()
 					exit()
 				data = str(count_vehicles(camera, net, ln))
+				print("Detected {} vehicles".format(data))
 				connection.sendall(data.encode("utf-8"))
 			else:
 				print("No data received from", client_address)
