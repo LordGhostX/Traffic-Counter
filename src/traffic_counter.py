@@ -60,7 +60,7 @@ print("Loaded YOLO Labels")
 
 # derive the paths to the YOLO weights and model configuration
 weightsPath = os.path.join(YOLO_PATH, "yolov3-tiny.weights")
-configPath = os.path.join(YOLO_PATH, "yolov3.cfg")
+configPath = os.path.join(YOLO_PATH, "yolov3-tiny.cfg")
 print("Dervied YOLO config paths")
 
 try:
@@ -71,6 +71,7 @@ try:
 	ln = net.getLayerNames()
 	ln = [ln[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 except:
+	print("An error occured while setting up YOLO")
 	net, ln = None, None
 
 # setup camera capturing
